@@ -7,6 +7,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Rutas de los csv
 EMPLEADOS_CSV = BASE_DIR / "datos" / "empleados.csv"
 SOLICITUDES_CSV = BASE_DIR / "datos" / "solicitudes_licencias.csv"
+
+def inicializar_archivos():
+
+    if not SOLICITUDES_CSV.exists():
+
+        with open(SOLICITUDES_CSV,"w",newline="",encoding="utf-8") as archivo:
+            escritor = csv.writer(archivo)
+            escritor.writerow(["id_solicitud","legajo","fecha_solicitud","fecha_inicio","motivo","certificado","estado"])
+            
 def lectura_csv_empleados():    
     try:                 #intenta tener acceso al archivo con los datos
         with open(EMPLEADOS_CSV, "r", encoding="utf-8") as archivo:

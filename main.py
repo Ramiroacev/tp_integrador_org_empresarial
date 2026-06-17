@@ -1,7 +1,6 @@
 '''Chat Bot Licencias Medicas Organizacion Empresarial'''
-#prueba
 
-from modulos.auxiliares import pedir_entero
+from modulos.auxiliares import pedir_entero, inicializar_archivos
 from modulos.principales import solicitar_licencia, consultar_estado
 
 def menu_principal():
@@ -31,4 +30,6 @@ def menu_principal():
             
 
 if __name__ == "__main__":
+    inicializar_archivos()
     menu_principal()
+    
