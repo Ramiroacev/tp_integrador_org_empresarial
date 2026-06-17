@@ -1,5 +1,11 @@
+from auxiliares import pedir_entero, buscar_empleado
+
 def solicitar_licencia():
-    print("Hola soy la opcion de solicitar licencia")
+    legajo = pedir_entero()
+    empleado = buscar_empleado(legajo)
+    if empleado is None:
+        print("Legajo inexistente.")
+        return
 
 
 def consultar_estado():
