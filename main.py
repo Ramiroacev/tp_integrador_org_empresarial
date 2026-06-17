@@ -1,6 +1,5 @@
 '''Chat Bot Licencias Medicas Organizacion Empresarial'''
-
-
+#prueba
 from modulos.auxiliares import pedir_entero
 from modulos.principales import solicitar_licencia, consultar_estado
 
