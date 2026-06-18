@@ -115,3 +115,5 @@ def cambiar_estado_solicitud(id_solicitud, nuevo_estado):
         print(f"No se encontró la solicitud con ID {id_solicitud}")
 
     return id_solicitud
+
+
