@@ -91,20 +91,22 @@ def buscar_solicitud(id_solicitud):
             return solicitud
     return None
 
-def cambiar_estado_solicitud(id_solicitud, nuevo_estado):
-    filas_actualizadas = []
-    encontrado = False
-    with open(SOLICITUDES_CSV, "r", newline="", encoding="utf-8") as archivo:
-        lector = csv.reader(archivo)
-        for fila in lector:
-            if fila and str(fila[0]) == str(id_solicitud):
-                fila[6] = nuevo_estado 
-                encontrado = True
-            filas_actualizadas.append(fila)
-    if encontrado:
-        with open(SOLICITUDES_CSV, "w", newline="", encoding="utf-8") as archivo:
-            escritor = csv.writer(archivo)
-            escritor.writerows(filas_actualizadas)
-    else:
-        print(f"No se encontró la solicitud con ID {id_solicitud}")
-    return id_solicitud
+def cambiar_estado_solicitud(id_solicitud, nuevo_estado, certificado=None):
+    """Actualiza el estado (y opcionalmente el certificado) de una solicitud en el CSV"""
+    solicitudes = lectura_csv_solicitudes()
+    for s in solicitudes:
+        if s['id_solicitud'] == str(id_solicitud):
+            s['estado'] = nuevo_estado
+            if certificado is not None:
+                s['certificado'] = certificado
+    escribir_csv_solicitudes(solicitudes)
+
+def pedir_fecha(mensaje):
+    """Valida que la fecha tenga formato dd-mm-aaaa y sea real"""
+    while True:
+        fecha = input(mensaje).strip()
+        try:
+            datetime.strptime(fecha, "%d-%m-%Y")
+            return fecha
+        except ValueError:
+            print("Fecha inválida. Use dd-mm-aaaa (ejemplo: 18-06-2026).")

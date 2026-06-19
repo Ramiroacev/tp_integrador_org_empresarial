@@ -1,26 +1,7 @@
-from modulos.auxiliares import pedir_entero, buscar_empleado, guardar_solicitud, buscar_solicitud, lectura_csv_solicitudes, escribir_csv_solicitudes
+from modulos.auxiliares import pedir_entero, buscar_empleado, guardar_solicitud, buscar_solicitud, lectura_csv_solicitudes, cambiar_estado_solicitud, pedir_fecha
 import random
 from datetime import datetime
 
-def cambiar_estado_solicitud(id_solicitud, nuevo_estado, certificado=None):
-    """Actualiza el estado (y opcionalmente el certificado) de una solicitud en el CSV"""
-    solicitudes = lectura_csv_solicitudes()
-    for s in solicitudes:
-        if s['id_solicitud'] == str(id_solicitud):
-            s['estado'] = nuevo_estado
-            if certificado is not None:
-                s['certificado'] = certificado
-    escribir_csv_solicitudes(solicitudes)
-
-def pedir_fecha(mensaje):
-    """Valida que la fecha tenga formato dd-mm-aaaa y sea real"""
-    while True:
-        fecha = input(mensaje).strip()
-        try:
-            datetime.strptime(fecha, "%d-%m-%Y")
-            return fecha
-        except ValueError:
-            print("Fecha inválida. Use dd-mm-aaaa (ejemplo: 18-06-2026).")
 
 def estado_inicio(estado=None):
     print("\n=== [Estado: Inicio] ===")
@@ -133,13 +114,14 @@ def estado_esperando_certificado(empleado, fecha_inicio, motivo, id_solicitud):
         return lambda: estado_esperando_certificado(empleado, fecha_inicio, motivo, id_solicitud)
 
     # Guardar certificado en la solicitud
-    cambiar_estado_solicitud(id_solicitud, 'Pendiente', certificado=accion)
+    cambiar_estado_solicitud(id_solicitud, 'Pendiente', accion)
     print("Certificado adjuntado correctamente. La solicitud continúa en estado Pendiente.")
     print("Enviando solicitud a RRHH...")
     return lambda: estado_enviado_a_RRHH(int(id_solicitud))
 
 def estado_enviado_a_RRHH(id_solicitud):
     print("\n=== [Estado: Solicitud en RRHH] ===")
+    print("Su solicitud esta siendo evaluada...")
     solicitud = buscar_solicitud(id_solicitud)
 
     if solicitud['certificado'] == "":
