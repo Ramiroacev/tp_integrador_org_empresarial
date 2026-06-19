@@ -1,33 +1,15 @@
-'''Chat Bot Licencias Medicas Organizacion Empresarial'''
-#prueba
-from modulos.auxiliares import pedir_entero
-from modulos.principales import solicitar_licencia, consultar_estado
+from modulos.auxiliares import inicializar_archivos
+from modulos import principales
 
-def menu_principal():
-    while True:
-        print("\n=== BOT RRHH ===")
-        print("Bienvenido al sistema de licencias médicas")
-        print("\nSeleccione una opción:")
-        print("1 - Solicitar licencia")
-        print("2 - Consultar estado")
-        print("3 - Salir")
-
-        opcion = pedir_entero()
-
-        match opcion:
-            case 1:
-                solicitar_licencia()
-
-            case 2:
-                consultar_estado()
-
-            case 3:
-                print("Gracias por utilizar el sistema.")
-                break
-
-            case _:
-                print("Error, debe ingresar una opción entre 1 y 3.")
-            
+  
 
 if __name__ == "__main__":
-    menu_principal()
+    inicializar_archivos()
+    
+    # Comenzamos con la función de inicio
+    estado_actual = principales.estado_inicio
+    
+    # El bucle ejecuta la función actual, recibe la SIGUIENTE función, y repite
+    # hasta que alguna función devuelva 'None' (como al escribir 'salir')
+    while estado_actual is not None:
+        estado_actual = estado_actual()
